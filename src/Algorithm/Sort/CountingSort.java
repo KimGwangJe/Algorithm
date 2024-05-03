@@ -7,7 +7,7 @@ public class CountingSort {
         int[] b = new int[nx];
         for(int i = 0; i < nx; i++) f[arr[i]]++;
         for(int i = 1; i <= max; i++) f[i] += f[i - 1];
-        for(int i = nx - 1; i >=0; i--) b[--f[arr[i]]] = arr[i];
+        for(int i = nx - 1; i >= 0; i--) b[--f[arr[i]]] = arr[i];
         for(int i = 0; i < nx; i++) arr[i] = b[i];
     }
 
