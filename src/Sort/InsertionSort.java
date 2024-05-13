@@ -32,5 +32,36 @@ public class InsertionSort {
             result += sum[i];
         }
         System.out.println(result);
+        insert();
+    }
+
+    public static void insert(){
+        int[] arr = {3,1,4,3,2};
+        int[] sum = new int[arr.length];
+
+        for(int i = 0; i < arr.length - 1; i++){
+            int min = arr[i];
+            int minIndex = i;
+            for(int j = i + 1; j < arr.length; j++){
+                if(min > arr[j]){
+                    min = arr[j];
+                    minIndex = j;
+                }
+            }
+            for(int k = minIndex; k > i; k--){
+                arr[k] = arr[k-1];
+            }
+            arr[i] = min;
+        }
+        for(int i: arr){
+            System.out.println(i);
+        }
+        sum[0] = arr[0];
+        int result = sum[0];
+        for(int i = 1; i < arr.length; i++){
+            sum[i] = sum[i-1] + arr[i];
+            result+=sum[i];
+        }
+        System.out.println(result);
     }
 }
