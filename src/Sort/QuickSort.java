@@ -3,7 +3,7 @@ package Sort;
 public class QuickSort {
     public static void main(String[] args){
         int[] arr = {4,1,2,3,5};
-        quickSort(arr);
+        quickSort(arr,0,arr.length-1);
         for(int i : arr){
             System.out.println(i);
         }
