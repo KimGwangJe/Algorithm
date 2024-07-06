@@ -1,5 +1,6 @@
 package Algorithm.QueueAndStack;
 
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 class Name implements Comparable<Name> {
@@ -19,29 +20,40 @@ class Name implements Comparable<Name> {
         return name;
     }
 
-    //여기에서 1이랑 -1을 변경하면 오름차순에서 내림차순으로 변경됨
     @Override
-    public int compareTo(Name other){
-        if(this.id > other.id){
-            return 1;
-        } else if(this.id < other.id){
-            return -1;
+    public int compareTo(Name other) {
+        // id가 낮은 것에 우선순위를 둠
+        if (this.id != other.id) {
+            return this.id - other.id;
         }
-        return 0;
+        // id가 같다면 name을 기준으로 정렬 (String의 compareTo 사용)
+        return this.name.compareTo(other.name);
     }
 }
 
 public class Priority {
     public static void main(String[] args) {
         PriorityQueue<Name> pq = new PriorityQueue<>();
-        pq.add(new Name(360,"3"));
-        pq.add(new Name(370,"4"));
-        pq.add(new Name(1,"1"));
-        pq.add(new Name(10,"2"));
+        pq.add(new Name(360, "3"));
+        pq.add(new Name(370, "4"));
+        pq.add(new Name(1, "1"));
+        pq.add(new Name(1, "2"));
 
-        while(!pq.isEmpty()){
+        System.out.println("오름차순");
+        while (!pq.isEmpty()) {
             Name name = pq.poll();
-            System.out.println(name.getId() + " " +name.getName());
+            System.out.println(name.getId() + " " + name.getName());
+        }
+        System.out.println("");
+        PriorityQueue<Name> pqR = new PriorityQueue<>(Collections.reverseOrder());
+        pqR.add(new Name(360, "3"));
+        pqR.add(new Name(370, "4"));
+        pqR.add(new Name(1, "1"));
+        pqR.add(new Name(1, "2"));
+        System.out.println("내림차순");
+        while (!pqR.isEmpty()) {
+            Name name = pqR.poll();
+            System.out.println(name.getId() + " " + name.getName());
         }
     }
 }
