@@ -1,39 +1,51 @@
 package Search;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Ex025DFS {
-    static int N = 8;
-    static boolean[] visited = new boolean[N];
-    static boolean arrive;
-    static ArrayList<Integer>[] list = new ArrayList[N];
-    public static void main(String[] args){
+    public static boolean[] visited;
+    public static ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+    public static boolean arrive = false;
+
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
         for(int i = 0; i < N; i++){
-            list[i] = new ArrayList<Integer>();
+            list.add(new ArrayList<>());
         }
-        int[][] a = {{1,7},{3,7},{4,7},{3,4},{4,6},{3,5},{0,4},{2,7}};
-        for(int i = 0; i < N; i++){
-            list[a[i][0]].add(a[i][1]);
-            list[a[i][1]].add(a[i][0]);
+
+        visited = new boolean[N];
+        for(int i = 0; i < M; i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            list.get(a).add(b);
+            list.get(b).add(a);
         }
 
         for(int i = 0; i < N; i++){
             DFS(i,1);
+            if(arrive) break;
         }
-        if(arrive) System.out.println(1);
-        else System.out.println(0);
+        System.out.println(arrive ? "1" : "0");
     }
 
-    public static void DFS(int i,int depth){
-        if(depth == 5 || arrive){
+    public static void DFS(int a, int depth){
+        if(depth == 5 || arrive) {
             arrive = true;
             return;
         }
-        visited[i] = true;
-        for(int j = 0; j < list[i].size(); j++){
-            if(!visited[list[i].get(j)]){
-                DFS(list[i].get(j),depth+1);
-            }
+        visited[a] = true;
+        for(int i : list.get(a)){
+            if(!visited[i]) DFS(i,depth+1);
         }
+        visited[a] = false; //잘못된 길로 갔던걸 다시 취소시켜버려야됨 안그러면 재귀에서 돌아오는 과정에서 다른길로 빠짐
     }
 }
