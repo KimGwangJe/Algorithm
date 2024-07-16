@@ -1,40 +1,50 @@
 package Search;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Ex023DFS {
-    static int N = 6;
-    static boolean[] visited = new boolean[N+1];
-    static ArrayList<Integer>[] list = new ArrayList[N+1];
+    public static boolean[] visited;
+    public static ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+    public static int a = 0;
 
-    public static void main(String[] args) {
-        int[][] arr = {{1,2},{2,5},{5,1},{3,4},{4,6}};
-        for(int i = 1; i < N + 1; i++) {
-            list[i] =  new ArrayList<Integer>();
-        }
-        for(int i = 0; i < arr.length; i++){
-            list[arr[i][0]].add(arr[i][1]);
-            list[arr[i][1]].add(arr[i][0]);
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        visited = new boolean[N + 1];
+
+        for(int i = 0; i <= N; i++){
+            list.add(new ArrayList<>());
         }
 
-        int count = 0;
-        for(int i = 1; i < N + 1; i++){
+        for(int i = 0; i < M; i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            list.get(a).add(b);
+            list.get(b).add(a);
+        }
+
+        for(int i = 1; i <= N; i++){
             if(!visited[i]){
-                count++;
                 DFS(i);
+                a++;
             }
         }
-        System.out.println(count);
+        System.out.println(a);
     }
 
     public static void DFS(int v){
-        if(visited[v]){
-            return;
-        }
         visited[v] = true;
-        for(int i: list[v]){
-            if(!visited[i]){
-                DFS(i);
+        for(int i =0; i < list.get(v).size(); i++){
+            if(!visited[list.get(v).get(i)]){
+                DFS(list.get(v).get(i));
             }
         }
     }
