@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Ex1021 {
@@ -20,24 +21,35 @@ public class Ex1021 {
             arr[i] = Integer.parseInt(str[i]);
         }
 
-        Deque<Integer> temp = new ArrayDeque<>();
-        for(int i = 1; i < N+1; i++){
-            temp.addLast(i);
+        LinkedList<Integer> deque = new LinkedList<>();
+        for(int i = 1; i <= N; i++){
+            deque.addLast(i);
         }
+
         int answer = 0;
         for(int i = 0; i < M; i++){
-            int target = arr[i];
-            int leftShift = 0;
-            while(temp.peekFirst() != target){
-                int num = temp.removeFirst();
-                temp.addLast(num);
-                leftShift++;
+            int targetIndex = deque.indexOf(arr[i]);
+            int half;
+
+            if(deque.size() % 2 == 0){
+                half = deque.size() / 2 - 1;
+            } else {
+                half = deque.size() / 2;
             }
-            int rightShift = temp.size() - leftShift;
-            answer+=Math.min(leftShift, rightShift);
-            temp.removeFirst();
+
+            if(targetIndex <= half){
+                for(int j = 0; j < targetIndex; j++){
+                    deque.offerLast(deque.pollFirst());
+                    answer++;
+                }
+            } else{
+                for(int j = 0; j < deque.size() - targetIndex; j++){
+                    deque.offerFirst(deque.pollLast());
+                    answer++;
+                }
+            }
+            deque.pollFirst();
         }
         System.out.println(answer);
-
     }
 }
