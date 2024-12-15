@@ -1,24 +1,27 @@
 package Sort;
 
 public class InsertionSort {
-    public static int[] arr = {3,1,4,3,2};
+    public static int[] arr = {6,8,2,1,3,7};
     public static void main(String[] args){
-        int i = 0;
-        int j = 0;
-        for(i = 1; i < arr.length; i++){
-            int target = arr[i];
+        for(int i = 1; i < arr.length; i++){
+            int temp = arr[i];
+            int j = i-1;
             for(j = i - 1; j >= 0; j--){
-                if(arr[j]>target){
+                if(temp < arr[j]){
                     arr[j+1] = arr[j];
                 } else{
                     break;
                 }
             }
-            arr[j+1] = target;
+            arr[j+1] = temp;
         }
 
-        for(int num : arr){
-            System.out.println(num);
+        StringBuilder sb = new StringBuilder();
+
+        for(int i : arr){
+            sb.append(i).append(" ");
         }
+
+        System.out.println(sb);
     }
 }
